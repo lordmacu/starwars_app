@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:just_audio/just_audio.dart';
 import 'package:starwars_app/api_client.dart';
 import 'package:starwars_app/home/home_provider.dart';
 import 'package:starwars_app/home/model/Person.dart';
@@ -36,9 +37,20 @@ class HomeContoller extends GetxController {
     }
 
     scrollController.value.addListener(_scrollListener);
+    playLocal();
 
-   await getPeople();
+    getPeople();
 
+
+  }
+
+  Future playLocal() async {
+   // int result = await audioPlayer.value.play(url);
+    final player = AudioPlayer();
+    await player.setLoopMode(LoopMode.all); // loop playlist
+
+    var duration = await player.setAsset('assets/starwars.mp3');
+    player.play();
   }
 
   loadMore() async {
